@@ -58,6 +58,11 @@ dependencies:
   google_fonts: ^3.0.1
   firebase_storage: ^11.0.6
   flutter_native_image: ^0.0.6+1
+  # pdf: ^3.8.4
+  syncfusion_flutter_pdfviewer: ^20.3.58
+  pdf: ^3.7.1
+  printing: ^5.9.3
+  # open_file: ^3.2.1
 
 dev_dependencies:
   flutter_test:

@@ -56,11 +56,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _email_controller = TextEditingController();
   final TextEditingController _password_controller = TextEditingController();
   final TextEditingController _phone_controller = TextEditingController();
+  final TextEditingController _address_controller = TextEditingController();
   final TextEditingController _company_name = TextEditingController();
 
   final FocusNode _email_node = FocusNode();
   final FocusNode _password_node = FocusNode();
   final FocusNode _phone_node = FocusNode();
+  final FocusNode _address_node = FocusNode();
   final FocusNode _company_node = FocusNode();
   @override
   Widget build(BuildContext context) {
@@ -159,10 +161,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     CustomTextField(
                       icon: Icons.email,
                       start: _company_node,
-                      end: _phone_node,
+                      end: _address_node,
                       controller: _company_name,
                       validator: (value) {},
                       title: "Company's Name",
+                      type: TextInputType.name,
+                      number: 0,
+                    ),
+                    OurSizedBox(),
+                    CustomTextField(
+                      icon: Icons.map,
+                      start: _address_node,
+                      end: _phone_node,
+                      controller: _address_controller,
+                      validator: (value) {},
+                      title: "Company's Address",
                       type: TextInputType.name,
                       number: 0,
                     ),
@@ -204,7 +217,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         if (_company_name.text.trim().isEmpty ||
                             _password_controller.text.trim().isEmpty ||
                             _email_controller.text.trim().isEmpty ||
-                            _password_controller.text.trim().isEmpty) {
+                            _password_controller.text.trim().isEmpty ||
+                            _address_controller.text.trim().isEmpty) {
                           OurToast().showErrorToast("Fields can't be empty");
                         } else if (images.isEmpty) {
                           OurToast().showErrorToast("Please select image");
@@ -217,6 +231,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             _email_controller.text.trim(),
                             _password_controller.text.trim(),
                             File(images),
+                            _address_controller.text.trim(),
                             context,
                           );
                         }
@@ -260,6 +275,4 @@ class _SignUpScreenState extends State<SignUpScreen> {
       ),
     );
   }
-
-  
 }

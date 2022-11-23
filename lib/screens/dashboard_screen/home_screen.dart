@@ -4,13 +4,21 @@ import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:myapp/screens/dashboard_screen/pdf_viewer_screen.dart';
 import 'package:myapp/services/add_items/add_item_services.dart';
+import 'package:myapp/services/pdf_service/pdf_invoice_api.dart';
 import 'package:myapp/utils/colors.dart';
 import 'package:myapp/widgets/our_elevated_button.dart';
 import 'package:myapp/widgets/our_text_field.dart';
-
+import 'package:page_transition/page_transition.dart';
+import 'package:pdf/pdf.dart';
+import 'package:pdf/widgets.dart' as pw;
 import '../../db/db_helper.dart';
+import '../../models/company_model.dart';
+import '../../models/customer.dart';
+import '../../models/invoice.dart';
 import '../../models/product_model.dart';
+import '../../models/supplier.dart';
 import '../../widgets/custom_tablerow.dart';
 import '../../widgets/our_sized_box.dart';
 
@@ -185,6 +193,132 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                         )
                                       ],
+                                    ),
+                                    OurSizedBox(),
+                                    OurSizedBox(),
+                                    Center(
+                                      child: OurElevatedButton(
+                                        title: "Generate Invoice",
+                                        function: () async {
+                                          List<int> keys =
+                                              Hive.box<ProductModel>(
+                                                      "productDetails")
+                                                  .keys
+                                                  .cast<int>()
+                                                  .toList();
+                                          ;
+                                          CompanyModel companyModel =
+                                              Hive.box<CompanyModel>(
+                                                      "companyDetails")
+                                                  .get("loggedUser")!;
+                                          final date = DateTime.now();
+                                          final dueDate =
+                                              date.add(Duration(days: 7));
+
+                                          final invoice = Invoice(
+                                              supplier: Supplier(
+                                                name: companyModel.name,
+                                                address: companyModel.address,
+                                                paymentInfo: '',
+                                              ),
+                                              customer: Customer(
+                                                name: 'Apple Inc.',
+                                                address:
+                                                    'Apple Street, Cupertino, CA 95014',
+                                              ),
+                                              info: InvoiceInfo(
+                                                date: date,
+                                                dueDate: dueDate,
+                                                description: '',
+                                                number:
+                                                    '${DateTime.now().year}-9999',
+                                              ),
+                                              items: keys
+                                                  .map(
+                                                    (e) => InvoiceItem(
+                                                      description: Hive.box<
+                                                                  ProductModel>(
+                                                              "productDetails")
+                                                          .get(e)!
+                                                          .name,
+                                                      date: DateTime.now(),
+                                                      quantity: Hive.box<
+                                                                  ProductModel>(
+                                                              "productDetails")
+                                                          .get(e)!
+                                                          .qty,
+                                                      vat: .13,
+                                                      unitPrice: Hive.box<
+                                                                  ProductModel>(
+                                                              "productDetails")
+                                                          .get(e)!
+                                                          .cost,
+                                                    ),
+                                                  )
+                                                  .cast<InvoiceItem>()
+                                                  .toList()
+                                              //  [
+                                              //   InvoiceItem(
+                                              //     description: 'Water',
+                                              //     date: DateTime.now(),
+                                              //     quantity: 8,
+                                              //     vat: 0.19,
+                                              //     unitPrice: 0.99,
+                                              //   ),
+                                              //   InvoiceItem(
+                                              //     description: 'Orange',
+                                              //     date: DateTime.now(),
+                                              //     quantity: 3,
+                                              //     vat: 0.19,
+                                              //     unitPrice: 2.99,
+                                              //   ),
+                                              //   InvoiceItem(
+                                              //     description: 'Apple',
+                                              //     date: DateTime.now(),
+                                              //     quantity: 8,
+                                              //     vat: 0.19,
+                                              //     unitPrice: 3.99,
+                                              //   ),
+                                              //   InvoiceItem(
+                                              //     description: 'Mango',
+                                              //     date: DateTime.now(),
+                                              //     quantity: 1,
+                                              //     vat: 0.19,
+                                              //     unitPrice: 1.59,
+                                              //   ),
+                                              //   InvoiceItem(
+                                              //     description: 'Blue Berries',
+                                              //     date: DateTime.now(),
+                                              //     quantity: 5,
+                                              //     vat: 0.19,
+                                              //     unitPrice: 0.99,
+                                              //   ),
+                                              //   InvoiceItem(
+                                              //     description: 'Lemon',
+                                              //     date: DateTime.now(),
+                                              //     quantity: 4,
+                                              //     vat: 0.19,
+                                              //     unitPrice: 1.29,
+                                              //   ),
+                                              // ],
+                                              );
+                                          final pdffile =
+                                              await PdfInvoiceApi.generate(
+                                            invoice,
+                                            // companyModel,
+                                          );
+                                          Navigator.push(
+                                            context,
+                                            PageTransition(
+                                              child: PDFviewerScreen(
+                                                  file: pdffile),
+                                              type: PageTransitionType
+                                                  .leftToRight,
+                                            ),
+                                          );
+                                          // inal pdffile = await PdfInvoiceAP
+                                        },
+                                      ),
                                     ),
                                   ],
                                 );

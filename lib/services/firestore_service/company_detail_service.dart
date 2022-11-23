@@ -11,6 +11,7 @@ class CompanyFirestore {
     String phone,
     String email,
     String url,
+    String address,
   ) async {
     print("Inside add company detail");
     try {
@@ -22,6 +23,7 @@ class CompanyFirestore {
         "phone": phone,
         "name": companyName,
         "url": url,
+        "address":address,
         "createdAt": Timestamp.now(),
       }).then((value) {
         // Get.find<ProgressIndicatorController>().changeValue(false);

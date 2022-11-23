@@ -16,12 +16,15 @@ class CompanyModel extends HiveObject {
   final String email;
   @HiveField(3)
   final String url;
+  @HiveField(4)
+  final String address;
 
   CompanyModel(
     this.name,
     this.phone,
     this.email,
     this.url,
+    this.address,
   );
 
   CompanyModel copyWith({
@@ -29,12 +32,14 @@ class CompanyModel extends HiveObject {
     String? phone,
     String? email,
     String? url,
+    String? address,
   }) {
     return CompanyModel(
       name ?? this.name,
       phone ?? this.phone,
       email ?? this.email,
       url ?? this.url,
+      address ?? this.address,
     );
   }
 
@@ -44,6 +49,7 @@ class CompanyModel extends HiveObject {
       'phone': phone,
       'email': email,
       'url': url,
+      'address': address,
     };
   }
 
@@ -53,6 +59,7 @@ class CompanyModel extends HiveObject {
       map['phone'] as String,
       map['email'] as String,
       map['url'] as String,
+      map['address'] as String,
     );
   }
 
@@ -62,21 +69,27 @@ class CompanyModel extends HiveObject {
 
   @override
   String toString() {
-    return 'CompanyModel(name: $name, phone: $phone, email: $email, url: $url)';
+    return 'CompanyModel(name: $name, phone: $phone, email: $email, url: $url, address: $address)';
   }
 
   @override
   bool operator ==(covariant CompanyModel other) {
     if (identical(this, other)) return true;
-
-    return other.name == name &&
-        other.phone == phone &&
-        other.email == email &&
-        other.url == url;
+  
+    return 
+      other.name == name &&
+      other.phone == phone &&
+      other.email == email &&
+      other.url == url &&
+      other.address == address;
   }
 
   @override
   int get hashCode {
-    return name.hashCode ^ phone.hashCode ^ email.hashCode ^ url.hashCode;
+    return name.hashCode ^
+      phone.hashCode ^
+      email.hashCode ^
+      url.hashCode ^
+      address.hashCode;
   }
 }

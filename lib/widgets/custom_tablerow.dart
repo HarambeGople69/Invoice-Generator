@@ -18,7 +18,7 @@ TableRow CustomTableRow({required ProductModel item}) {
             item.name,
             style: TextStyle(
               fontSize: ScreenUtil().setSp(15),
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.bold,
             ),
           ),
           // CustomText(
@@ -36,7 +36,7 @@ TableRow CustomTableRow({required ProductModel item}) {
               "${item.cost}",
               style: TextStyle(
                 fontSize: ScreenUtil().setSp(15),
-                fontWeight: FontWeight.w400,
+                fontWeight: FontWeight.bold,
               ),
             )
             //  CustomText(
@@ -54,7 +54,7 @@ TableRow CustomTableRow({required ProductModel item}) {
             item.qty.toString(),
             style: TextStyle(
               fontSize: ScreenUtil().setSp(15),
-              fontWeight: FontWeight.w400,
+              fontWeight: FontWeight.bold,
             ),
           ),
           // CustomText(

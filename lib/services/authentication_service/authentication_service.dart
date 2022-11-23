@@ -15,7 +15,7 @@ import '../addImages/profile_image..dart';
 
 class Auth {
   createAccount(String companyName, String phone, String email, String password,
-      File file, BuildContext context) async {
+      File file,String address, BuildContext context) async {
     print("Inside create account screen");
     try {
       await FirebaseAuth.instance
@@ -30,6 +30,7 @@ class Auth {
           phone,
           email,
           url!,
+          address,
         );
         var a = await FirebaseFirestore.instance
             .collection("Company")
