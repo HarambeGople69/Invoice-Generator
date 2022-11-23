@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "634894444744",
+    "project_id": "invoice-cda8b",
+    "storage_bucket": "invoice-cda8b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:634894444744:android:43588ebd5f46527c20ddfd",
+        "android_client_info": {
+          "package_name": "com.invoice_generatior.io"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "634894444744-f2s57drc2kginvhfp7mj459r29t2vvds.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvufthintaFh8dGR2kLuOjkYIQgLH6W1Q"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "634894444744-f2s57drc2kginvhfp7mj459r29t2vvds.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
