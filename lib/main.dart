@@ -9,14 +9,18 @@ import 'package:myapp/screens/splash_screen/splash_screen.dart';
 import 'app_binding/app_binding.dart';
 import 'db/db_helper.dart';
 import 'models/company_model.dart';
+import 'models/product_model.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox<int>(DatabaseHelper.authenticationDB);
+  await Hive.openBox<double>(DatabaseHelper.priceDB);
   Hive.registerAdapter(CompanyModelAdapter());
+  Hive.registerAdapter(ProductModelAdapter());
   await Hive.openBox<CompanyModel>("companyDetails");
+  await Hive.openBox<ProductModel>("productDetails");
   runApp(MyApp());
 }
 

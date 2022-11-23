@@ -35,6 +35,8 @@ class Auth {
             .collection("Company")
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
+        await Hive.box<double>(DatabaseHelper.priceDB).put("price", 0.0);
+
         await Hive.box<int>(DatabaseHelper.authenticationDB).put("state", 1);
         Navigator.pop(context);
         CompanyModel companyModel = CompanyModel.fromMap(a);
@@ -60,6 +62,7 @@ class Auth {
             .collection("Company")
             .doc(FirebaseAuth.instance.currentUser!.uid)
             .get();
+        await Hive.box<double>(DatabaseHelper.priceDB).put("price", 0.0);
         await Hive.box<int>(DatabaseHelper.authenticationDB).put("state", 1);
 
         CompanyModel companyModel = CompanyModel.fromMap(a);
