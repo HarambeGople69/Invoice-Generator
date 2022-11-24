@@ -14,13 +14,16 @@ import '../../utils/utils.dart';
 
 class PdfInvoiceApi {
   static Future<File> generate(Invoice invoice) async {
-    ImageProvider netImage = await networkImage(
-        Hive.box<CompanyModel>("companyDetails").get("loggedUser")!.url);
+    MemoryImage image = pw.MemoryImage(
+      File(Hive.box<String>("filePath").get("filePath")!).readAsBytesSync(),
+    );
+    // ImageProvider netImage = await networkImage(
+    //     Hive.box<CompanyModel>("companyDetails").get("loggedUser")!.url);
     final pdf = Document();
 
     pdf.addPage(MultiPage(
       build: (context) => [
-        buildHeader(invoice, netImage),
+        buildHeader(invoice, image),
         SizedBox(height: 3 * PdfPageFormat.cm),
         buildTitle(invoice),
         buildInvoice(invoice),
@@ -30,10 +33,11 @@ class PdfInvoiceApi {
       footer: (context) => buildFooter(invoice),
     ));
 
-    return PdfApi.saveDocument(name: 'my_invoice.pdf', pdf: pdf);
+    return PdfApi.saveDocument(
+        name: 'invoice_${invoice.info.number}.pdf', pdf: pdf);
   }
 
-  static Widget buildHeader(Invoice invoice, ImageProvider netImage) => Column(
+  static Widget buildHeader(Invoice invoice, MemoryImage memoryImage) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(height: 1 * PdfPageFormat.cm),
@@ -44,7 +48,7 @@ class PdfInvoiceApi {
               Container(
                 height: 50,
                 width: 50,
-                child: pw.Image(netImage),
+                child: pw.Image(memoryImage),
               ),
               Container(
                 height: 50,
@@ -62,8 +66,6 @@ class PdfInvoiceApi {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               buildSupplierAddress(invoice.supplier),
-
-              // buildCustomerAddress(invoice.customer),
               buildInvoiceInfo(invoice.info),
             ],
           ),

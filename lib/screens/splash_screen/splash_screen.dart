@@ -4,6 +4,8 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:myapp/services/network_connection/network_connection.dart';
 import 'package:myapp/widgets/our_sized_box.dart';
 import '../../utils/colors.dart';
 import '../outer_screen/outer_screen.dart';

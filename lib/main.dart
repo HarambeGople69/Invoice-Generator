@@ -16,7 +16,9 @@ Future<void> main() async {
   await Firebase.initializeApp();
   await Hive.initFlutter();
   await Hive.openBox<int>(DatabaseHelper.authenticationDB);
+  await Hive.openBox<String>("filePath");
   await Hive.openBox<double>(DatabaseHelper.priceDB);
+  await Hive.openBox<int>("StoragePermission");
   Hive.registerAdapter(CompanyModelAdapter());
   Hive.registerAdapter(ProductModelAdapter());
   await Hive.openBox<CompanyModel>("companyDetails");

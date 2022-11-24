@@ -102,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     OurSizedBox(),
                     OurElevatedButton(
-                      title: "Login",
+                      title: "LOGIN",
                       function: () {
                         if (_email_controller.text.trim().isEmpty ||
                             _password_controller.text.trim().isEmpty) {

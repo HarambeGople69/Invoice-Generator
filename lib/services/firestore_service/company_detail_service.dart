@@ -27,7 +27,7 @@ class CompanyFirestore {
         "createdAt": Timestamp.now(),
       }).then((value) {
         // Get.find<ProgressIndicatorController>().changeValue(false);
-        OurToast().showSuccessToast("Added");
+       // OurToast().showSuccessToast("Added");
       });
     } catch (e) {
       Get.find<ProgressIndicatorController>().changeValue(false);

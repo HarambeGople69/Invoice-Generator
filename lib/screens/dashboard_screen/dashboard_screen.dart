@@ -13,6 +13,7 @@ import 'package:myapp/widgets/our_elevated_button.dart';
 
 import '../../controller/dashboard_index_controller.dart';
 import '../../db/db_helper.dart';
+import '../../services/network_connection/network_connection.dart';
 import '../../utils/colors.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -23,6 +24,13 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    Get.find<CheckConnectivity>().initialize();
+  }
+
   var widgetList = <Widget>[
     HomeScreen(),
     HistoryScreen(),
