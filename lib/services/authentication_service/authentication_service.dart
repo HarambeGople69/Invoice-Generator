@@ -53,20 +53,21 @@ class Auth {
             companyModel.url,
           ),
         );
+        print("Hello World");
         var uniqueName = Uuid().v4();
-        Directory documentDirectory = await getApplicationDocumentsDirectory();
+        Directory? documentDirectory = await getExternalStorageDirectory();
         File filess = new File(
           join(
-            documentDirectory.path,
+            documentDirectory!.path,
             'companyIcon$uniqueName.png',
           ),
         );
         print("+++++++++");
         print(filess.path);
+        filess.writeAsBytes(response.bodyBytes);
         Hive.box<String>("filePath").put("filePath", filess.path);
         print("+++++++++");
 
-        filess.writeAsBytesSync(response.bodyBytes);
         await Hive.box<int>(DatabaseHelper.authenticationDB).put("state", 1);
         Navigator.pop(context);
         OurToast().showSuccessToast("Welcome ${companyModel.name}");
@@ -91,6 +92,10 @@ class Auth {
         await Hive.box<double>(DatabaseHelper.priceDB).put("price", 0.0);
 
         CompanyModel companyModel = CompanyModel.fromMap(a);
+        print("ABCD====");
+
+        print(companyModel.toJson());
+        print("ABCD====");
         Hive.box<CompanyModel>("companyDetails")
             .put("loggedUser", companyModel);
         var response = await http.get(
@@ -98,21 +103,24 @@ class Auth {
             companyModel.url,
           ),
         );
+        print("Utsav Shrestha");
+        print(companyModel.url);
+        print(response.body);
         var uniqueName = Uuid().v4();
-        Directory documentDirectory = await getApplicationDocumentsDirectory();
+        Directory? documentDirectory = await getExternalStorageDirectory();
         File filess = new File(
           join(
-            documentDirectory.path,
+            documentDirectory!.path,
             'companyIcon$uniqueName.png',
           ),
         );
         print("+++++++++");
         print(filess.path);
+        filess.writeAsBytes(response.bodyBytes);
         Hive.box<String>("filePath").put("filePath", filess.path);
 
         print("+++++++++");
 
-        filess.writeAsBytesSync(response.bodyBytes);
         Get.find<ProgressIndicatorController>().changeValue(false);
 
         await Hive.box<int>(DatabaseHelper.authenticationDB).put("state", 1);

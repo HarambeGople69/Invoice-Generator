@@ -13,7 +13,7 @@ import '../../models/supplier.dart';
 import '../../utils/utils.dart';
 
 class PdfInvoiceApi {
-  static Future<File> generate(Invoice invoice) async {
+  static Future<File> generate(Invoice invoice, bool value) async {
     MemoryImage image = pw.MemoryImage(
       File(Hive.box<String>("filePath").get("filePath")!).readAsBytesSync(),
     );
@@ -34,7 +34,7 @@ class PdfInvoiceApi {
     ));
 
     return PdfApi.saveDocument(
-        name: 'invoice_${invoice.info.number}.pdf', pdf: pdf);
+        name: 'invoice_${invoice.info.number}.pdf', pdf: pdf, value: value);
   }
 
   static Widget buildHeader(Invoice invoice, MemoryImage memoryImage) => Column(
@@ -44,11 +44,12 @@ class PdfInvoiceApi {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Text(Hive.box<String>("filePath").get("filePath")!),
               // buildSupplierAddress(invoice.supplier),
               Container(
                 height: 50,
                 width: 50,
-                child: pw.Image(memoryImage),
+                child: Image(memoryImage),
               ),
               Container(
                 height: 50,
@@ -126,7 +127,7 @@ class PdfInvoiceApi {
 
   static Widget buildInvoice(Invoice invoice) {
     final headers = [
-      'Description',
+      'Item Name',
       'Date',
       'Quantity',
       'Unit Price',

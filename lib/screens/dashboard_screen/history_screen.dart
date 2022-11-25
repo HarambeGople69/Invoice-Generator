@@ -416,68 +416,117 @@ class _HistoryScreenState extends State<HistoryScreen> {
                                         //       // },
                                         //       ),
                                         // );
-                                        ListView.builder(
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            itemCount: imagePaths.length,
-                                            itemBuilder: (context, index) {
-                                              // return Text(
-                                              // imagePaths[index]
-                                              //     .split("/")
-                                              //     .last,
-                                              // );
-                                              return InkWell(
-                                                onTap: () {
-                                                  // print("Button Pressed");
-                                                  Navigator.push(
-                                                    context,
-                                                    PageTransition(
-                                                      child: PDFviewerScreen(
-                                                        value: false,
-                                                        url: "",
-                                                        file: File(
-                                                          imagePaths[index],
+                                        imagePaths.length == 0
+                                            ? Column(
+                                                children: [
+                                                  SizedBox(
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.1,
+                                                  ),
+                                                  ClipRRect(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      ScreenUtil().setSp(45),
+                                                    ),
+                                                    child: Image.asset(
+                                                      "assets/images/logo.png",
+                                                      height: ScreenUtil()
+                                                          .setSp(225),
+                                                      width: ScreenUtil()
+                                                          .setSp(225),
+                                                      fit: BoxFit.contain,
+                                                    ),
+                                                  ),
+                                                  OurSizedBox(),
+                                                  Center(
+                                                    child: Text(
+                                                      "No History",
+                                                      style: TextStyle(
+                                                        fontSize:
+                                                            ScreenUtil().setSp(
+                                                          22.5,
                                                         ),
+                                                        fontWeight:
+                                                            FontWeight.w500,
                                                       ),
-                                                      type: PageTransitionType
-                                                          .leftToRight,
+                                                    ),
+                                                  ),
+                                                  // Spacer(),
+                                                ],
+                                              )
+                                            : ListView.builder(
+                                                physics:
+                                                    NeverScrollableScrollPhysics(),
+                                                shrinkWrap: true,
+                                                itemCount: imagePaths.length,
+                                                itemBuilder: (context, index) {
+                                                  // return Text(
+                                                  // imagePaths[index]
+                                                  //     .split("/")
+                                                  //     .last,
+                                                  // );
+                                                  return InkWell(
+                                                    onTap: () {
+                                                      // print("Button Pressed");
+                                                      Navigator.push(
+                                                        context,
+                                                        PageTransition(
+                                                          child:
+                                                              PDFviewerScreen(
+                                                            value: false,
+                                                            url: "",
+                                                            file: File(
+                                                              imagePaths[index],
+                                                            ),
+                                                          ),
+                                                          type:
+                                                              PageTransitionType
+                                                                  .leftToRight,
+                                                        ),
+                                                      );
+                                                    },
+                                                    child: Container(
+                                                      margin:
+                                                          EdgeInsets.symmetric(
+                                                        vertical: ScreenUtil()
+                                                            .setSp(7.5),
+                                                      ),
+                                                      child: Row(
+                                                        children: [
+                                                          Icon(
+                                                            Icons
+                                                                .picture_as_pdf,
+                                                            color:
+                                                                darkLogoColor,
+                                                            size: ScreenUtil()
+                                                                .setSp(35),
+                                                          ),
+                                                          SizedBox(
+                                                            width: ScreenUtil()
+                                                                .setSp(25),
+                                                          ),
+                                                          Text(
+                                                            imagePaths[index]
+                                                                .split("/")
+                                                                .last,
+                                                            style: TextStyle(
+                                                              fontSize:
+                                                                  ScreenUtil()
+                                                                      .setSp(
+                                                                          17.5),
+                                                              color:
+                                                                  darkLogoColor,
+                                                            ),
+                                                          ),
+                                                          Spacer(),
+                                                        ],
+                                                      ),
                                                     ),
                                                   );
-                                                },
-                                                child: Container(
-                                                  margin: EdgeInsets.symmetric(
-                                                    vertical:
-                                                        ScreenUtil().setSp(7.5),
-                                                  ),
-                                                  child: Row(
-                                                    children: [
-                                                      Icon(
-                                                        Icons.picture_as_pdf,
-                                                        color: darkLogoColor,
-                                                        size: ScreenUtil()
-                                                            .setSp(35),
-                                                      ),
-                                                      SizedBox(
-                                                        width: ScreenUtil()
-                                                            .setSp(25),
-                                                      ),
-                                                      Text(
-                                                        imagePaths[index]
-                                                            .split("/")
-                                                            .last,
-                                                        style: TextStyle(
-                                                          fontSize: ScreenUtil()
-                                                              .setSp(17.5),
-                                                          color: darkLogoColor,
-                                                        ),
-                                                      ),
-                                                      Spacer(),
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            }));
+                                                }));
                           },
                         ),
                   // Center(

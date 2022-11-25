@@ -74,8 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
               paymentInfo: '',
             ),
             customer: Customer(
-              name: 'Apple Inc.',
-              address: 'Apple Street, Cupertino, CA 95014',
+              name: '',
+              address: '',
             ),
             info: InvoiceInfo(
               date: date,
@@ -99,10 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 .cast<InvoiceItem>()
                 .toList());
 
-        final pdffile = await PdfInvoiceApi.generate(
-          invoice,
-          // companyModel,
-        );
+        final pdffile = await PdfInvoiceApi.generate(invoice, value);
         if (value) {
           InvoiceUploadService().uploadInvoice(pdffile);
         }
@@ -165,7 +162,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
         final pdffile = await PdfInvoiceApi.generate(
           invoice,
-          // companyModel,
+          value,
         );
         Navigator.push(
           context,
@@ -396,6 +393,98 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 OurElevatedButton(
                                                   title: "Generate Invoice",
                                                   function: () async {
+                                                    // generateInvoice(false);
+                                                    Hive.box<int>(
+                                                            "StoragePermission")
+                                                        .put("given", 1);
+                                                    print("Folder exists");
+                                                    var rnd = new Random();
+                                                    var next =
+                                                        rnd.nextDouble() *
+                                                            100000;
+                                                    print(next.toInt());
+                                                    List<int> keys = Hive.box<
+                                                                ProductModel>(
+                                                            "productDetails")
+                                                        .keys
+                                                        .cast<int>()
+                                                        .toList();
+                                                    ;
+                                                    CompanyModel companyModel =
+                                                        Hive.box<CompanyModel>(
+                                                                "companyDetails")
+                                                            .get("loggedUser")!;
+                                                    final date = DateTime.now();
+                                                    final dueDate = date
+                                                        .add(Duration(days: 7));
+
+                                                    final invoice = Invoice(
+                                                        supplier: Supplier(
+                                                          name:
+                                                              companyModel.name,
+                                                          address: companyModel
+                                                              .address,
+                                                          paymentInfo: '',
+                                                        ),
+                                                        customer: Customer(
+                                                          name: '',
+                                                          address: '',
+                                                        ),
+                                                        info: InvoiceInfo(
+                                                          date: date,
+                                                          dueDate: dueDate,
+                                                          description: '',
+                                                          number:
+                                                              '${next.toInt()}',
+                                                        ),
+                                                        items: keys
+                                                            .map(
+                                                              (e) =>
+                                                                  InvoiceItem(
+                                                                description:
+                                                                    Hive.box<ProductModel>(
+                                                                            "productDetails")
+                                                                        .get(e)!
+                                                                        .name,
+                                                                date: DateTime
+                                                                    .now(),
+                                                                quantity: Hive.box<
+                                                                            ProductModel>(
+                                                                        "productDetails")
+                                                                    .get(e)!
+                                                                    .qty,
+                                                                vat: .13,
+                                                                unitPrice: Hive.box<
+                                                                            ProductModel>(
+                                                                        "productDetails")
+                                                                    .get(e)!
+                                                                    .cost,
+                                                              ),
+                                                            )
+                                                            .cast<InvoiceItem>()
+                                                            .toList());
+
+                                                    // final pdffile =
+                                                    //     await PdfInvoiceApi
+                                                    //         .generate(
+                                                    //   invoice,
+                                                    //   value
+                                                    // );
+                                                    // if (value) {
+                                                    //   InvoiceUploadService().uploadInvoice(pdffile);
+                                                    // }
+                                                    // Navigator.push(
+                                                    //   context,
+                                                    //   PageTransition(
+                                                    //     child: PDFviewerScreen(
+                                                    //       value: false,
+                                                    //       url: "",
+                                                    //       file: pdffile,
+                                                    //     ),
+                                                    //     type: PageTransitionType
+                                                    //         .leftToRight,
+                                                    //   ),
+                                                    // );
                                                     generateInvoice(false);
                                                   },
                                                 ),
